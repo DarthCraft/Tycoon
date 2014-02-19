@@ -1,4 +1,6 @@
 package net.darthcraft.tycoon;
 
-public class Tycoon {
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class Tycoon extends JavaPlugin {
 }
