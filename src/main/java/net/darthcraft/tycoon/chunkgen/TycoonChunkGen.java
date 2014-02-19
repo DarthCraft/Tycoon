@@ -1,20 +1,17 @@
 package net.darthcraft.tycoon.chunkgen;
 
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import static net.darthcraft.tycoon.chunkgen.CGUtil.*;
+
 public class TycoonChunkGen extends ChunkGenerator {
-
-    private static final int CHUNK_SECTION_SIZE = 4096;
-
-    private static final int DIRT_MAX_HEIGHT = 64;
-
-    // TODO: Add in plot generation surrounded by stone bricks
 
     @Override
     public byte[][] generateBlockSections(World world, Random random, int x, int z, BiomeGrid biomes) {
@@ -24,12 +21,15 @@ public class TycoonChunkGen extends ChunkGenerator {
         for (int xx = 0; xx < 16; xx++) {
             for (int zz = 0; zz < 16; zz++) {
                 setBlockFast(ret, xx, 0, zz, (byte) 7);
+                biomes.setBiome(xx, zz, Biome.PLAINS);
             }
         }
+
         for (int i = DIRT_MAX_HEIGHT >> 4; i > 0; i--) {
             ret[i] = new byte[CHUNK_SECTION_SIZE];
         }
-        for (int yy = 0; yy <= DIRT_MAX_HEIGHT; yy++) {
+
+        for (int yy = 1; yy <= DIRT_MAX_HEIGHT; yy++) {
             for (int xx = 0; xx < 16; xx++) {
                 for (int zz = 0; zz < 16; zz++) {
                     if (yy == DIRT_MAX_HEIGHT) {
@@ -42,6 +42,11 @@ public class TycoonChunkGen extends ChunkGenerator {
         }
 
         return ret;
+    }
+
+    @Override
+    public List<BlockPopulator> getDefaultPopulators(World world) {
+        return Arrays.asList(new PathBlockPop(), new SlabBlockPop());
     }
 
     private void setBlockFast(byte[][] data, int x, int y, int z, byte type) {
