@@ -1,6 +1,8 @@
 package net.darthcraft.tycoon.chunkgen;
 
-class CGUtil {
+import net.darthcraft.tycoon.Util;
+
+public class CGUtil {
 
     static final int CHUNK_SECTION_SIZE = 4096;
 
@@ -10,7 +12,7 @@ class CGUtil {
     static final int PATH_WIDTH = 5;
     static final int SLAB_LEVEL = DIRT_MAX_HEIGHT + 1;
     static final int SLAB_WIDTH = 2;
-    static final int GRID_CELL_SIZE = PLOT_SIZE + PATH_WIDTH + SLAB_WIDTH;
+    public static final int GRID_CELL_SIZE = PLOT_SIZE + PATH_WIDTH + SLAB_WIDTH;
 
     static final int SLAB_MOD_LOC_1 = PATH_WIDTH;
     static final int SLAB_MOD_LOC_2 = GRID_CELL_SIZE - 1;
@@ -19,13 +21,7 @@ class CGUtil {
     static final int SIGN_Z_POS = PATH_WIDTH - 1;
     static final int SIGN_HEIGHT = SLAB_LEVEL;
 
-
     static final int modGridSize(int num) {
-        return posNegMod(num, GRID_CELL_SIZE);
+        return Util.posNegMod(num, GRID_CELL_SIZE);
     }
-
-    static final int posNegMod(int num, int div) {
-        return num < 0 ?  ((num % div) + div) % div : num % div;
-    }
-
 }
