@@ -40,13 +40,27 @@ public class TycoonChunkGen extends ChunkGenerator {
                 }
             }
         }
+        if (ret[SLAB_LEVEL >> 4] == null) {
+            ret[SLAB_LEVEL >> 4] = new byte[CHUNK_SECTION_SIZE];
+        }
+        for (int xx = 0; xx < 16; xx++) {
+            int nX = x << 4 + xx;
+            int mX = CGUtil.modGridSize(nX);
+            for (int zz = 0; zz < 16; zz++) {
+                int nZ = z << 4 + zz;
+                int mZ = modGridSize(nZ);
+                if (mX == SLAB_MOD_LOC_1  || mX == SLAB_MOD_LOC_1 || mZ == SLAB_MOD_LOC_1 || mZ == SLAB_MOD_LOC_2) {
+                    setBlockFast(ret, xx, SLAB_LEVEL, zz, (byte) 44);
+                }
+            }
+        }
 
         return ret;
     }
 
     @Override
     public List<BlockPopulator> getDefaultPopulators(World world) {
-        return Arrays.asList(new PathBlockPop(), new SlabBlockPop());
+        return Arrays.asList(new PathBlockPop(), new SignBlockPop());
     }
 
     private void setBlockFast(byte[][] data, int x, int y, int z, byte type) {

@@ -15,10 +15,10 @@ public class PathBlockPop extends BlockPopulator {
         int chunkXOff = chunk.getX() << 4;
         int chunkZOff = chunk.getZ() << 4;
         for (int x = 0; x < 16; x++) {
+            int nX = chunkXOff + x;
+            int mX = modGridSize(nX);
             for (int z = 0; z < 16; z++) {
-                int nX = chunkXOff + x;
                 int nZ = chunkZOff + z;
-                int mX = modGridSize(nX);
                 int mZ = modGridSize(nZ);
                 if (mX < PATH_WIDTH || mZ < PATH_WIDTH) {
                     chunk.getBlock(x, DIRT_MAX_HEIGHT, z).setTypeId(1, false);
