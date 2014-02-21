@@ -1,7 +1,6 @@
 package net.darthcraft.tycoon.chunkgen;
 
 import org.bukkit.Chunk;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.generator.BlockPopulator;
@@ -24,8 +23,8 @@ public class SignBlockPop extends BlockPopulator {
                 int mX = modGridSize(nX);
                 int mZ = modGridSize(nZ);
                 if (mX == SIGN_X_POS && mZ == SIGN_Z_POS) {
-                    chunk.getBlock(x, SLAB_LEVEL, z).setTypeIdAndData(Material.WALL_SIGN.getId(), (byte) 2, false);
-                    Sign s = (Sign) world.getBlockAt(x, SLAB_LEVEL, z).getState();
+                    chunk.getBlock(x, SLAB_LEVEL, z).setData((byte) 2);
+                    Sign s = (Sign) chunk.getBlock(x, SLAB_LEVEL, z).getState();
                     s.setLine(0, "Plot Available");
                     s.setLine(1, "Right Click to");
                     s.setLine(2, "Buy");

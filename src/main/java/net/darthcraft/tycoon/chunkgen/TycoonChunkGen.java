@@ -5,7 +5,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -44,12 +44,19 @@ public class TycoonChunkGen extends ChunkGenerator {
             ret[SLAB_LEVEL >> 4] = new byte[CHUNK_SECTION_SIZE];
         }
         for (int xx = 0; xx < 16; xx++) {
-            int nX = x << 4 + xx;
+            int nX = (x << 4) + xx;
             int mX = CGUtil.modGridSize(nX);
             for (int zz = 0; zz < 16; zz++) {
-                int nZ = z << 4 + zz;
+                int nZ = (z << 4) + zz;
                 int mZ = modGridSize(nZ);
-                if (mX == SLAB_MOD_LOC_1  || mX == SLAB_MOD_LOC_1 || mZ == SLAB_MOD_LOC_1 || mZ == SLAB_MOD_LOC_2) {
+                if (mX == SIGN_X_POS && mZ == SIGN_Z_POS) {
+                    setBlockFast(ret, xx, SLAB_LEVEL, zz, (byte) 68);
+                }
+                if (mX < PATH_WIDTH || mZ < PATH_WIDTH) {
+                    continue;
+                }
+
+                if (mX == SLAB_MOD_LOC_1 || mX == SLAB_MOD_LOC_2 || mZ == SLAB_MOD_LOC_1 || mZ == SLAB_MOD_LOC_2) {
                     setBlockFast(ret, xx, SLAB_LEVEL, zz, (byte) 44);
                 }
             }
@@ -60,7 +67,10 @@ public class TycoonChunkGen extends ChunkGenerator {
 
     @Override
     public List<BlockPopulator> getDefaultPopulators(World world) {
-        return Arrays.asList(new PathBlockPop(), new SignBlockPop());
+        ArrayList<BlockPopulator> pops = new ArrayList<BlockPopulator>();
+        pops.add(new SignBlockPop());
+        pops.add(new PathBlockPop());
+        return pops;
     }
 
     private void setBlockFast(byte[][] data, int x, int y, int z, byte type) {

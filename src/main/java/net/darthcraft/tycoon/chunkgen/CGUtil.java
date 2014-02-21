@@ -17,11 +17,10 @@ public class CGUtil {
     static final int SLAB_MOD_LOC_1 = PATH_WIDTH;
     static final int SLAB_MOD_LOC_2 = GRID_CELL_SIZE - 1;
 
-    static final int SIGN_X_POS = PATH_WIDTH;
+    static final int SIGN_X_POS = PATH_WIDTH + 1;
     static final int SIGN_Z_POS = PATH_WIDTH - 1;
-    static final int SIGN_HEIGHT = SLAB_LEVEL;
 
-    static final int modGridSize(int num) {
+    static int modGridSize(int num) {
         return Util.posNegMod(num, GRID_CELL_SIZE);
     }
 }
