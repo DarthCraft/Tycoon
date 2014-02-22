@@ -13,6 +13,8 @@ import static net.darthcraft.tycoon.chunkgen.CGUtil.*;
 
 public class TycoonChunkGen extends ChunkGenerator {
 
+    // TODO: Manually load in the tile entity for the world during this
+
     @Override
     public byte[][] generateBlockSections(World world, Random random, int x, int z, BiomeGrid biomes) {
         int numSections = world.getMaxHeight() / 16;

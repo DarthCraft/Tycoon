@@ -6,7 +6,7 @@ public class CGUtil {
 
     static final int CHUNK_SECTION_SIZE = 4096;
 
-    static final int DIRT_MAX_HEIGHT = 63;
+    public static final int DIRT_MAX_HEIGHT = 63;
 
     static final int PLOT_SIZE = 32;
     static final int PATH_WIDTH = 5;

@@ -1,6 +1,7 @@
 package net.darthcraft.tycoon.chunkgen;
 
 import org.bukkit.Chunk;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;

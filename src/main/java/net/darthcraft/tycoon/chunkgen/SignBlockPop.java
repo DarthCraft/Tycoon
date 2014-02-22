@@ -23,7 +23,7 @@ public class SignBlockPop extends BlockPopulator {
                 int mX = modGridSize(nX);
                 int mZ = modGridSize(nZ);
                 if (mX == SIGN_X_POS && mZ == SIGN_Z_POS) {
-                    chunk.getBlock(x, SLAB_LEVEL, z).setData((byte) 2);
+                    chunk.getBlock(x, SLAB_LEVEL, z).setData((byte) 2, false);
                     Sign s = (Sign) chunk.getBlock(x, SLAB_LEVEL, z).getState();
                     s.setLine(0, "Plot Available");
                     s.setLine(1, "Right Click to");

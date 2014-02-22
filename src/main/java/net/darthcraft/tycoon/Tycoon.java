@@ -1,11 +1,16 @@
 package net.darthcraft.tycoon;
 
+import net.darthcraft.tycoon.chunkgen.CGUtil;
 import net.darthcraft.tycoon.chunkgen.TycoonChunkGen;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.event.world.ChunkPopulateEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -51,11 +56,16 @@ public class Tycoon extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        getServer().getScheduler().runTask(this, new Runnable() {
+        getServer().getScheduler().runTaskLater(this, new Runnable() {
             @Override
             public void run() {
                 event.getPlayer().teleport(tycoon.getSpawnLocation());
             }
-        });
+        }, 5L);
+    }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        event.getPlayer().teleport(getServer().getWorld("world").getSpawnLocation());
     }
 }
