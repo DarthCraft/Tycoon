@@ -2,6 +2,7 @@ package net.darthcraft.tycoon.chunkgen;
 
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
@@ -12,8 +13,6 @@ import java.util.Random;
 import static net.darthcraft.tycoon.chunkgen.CGUtil.*;
 
 public class TycoonChunkGen extends ChunkGenerator {
-
-    // TODO: Manually load in the tile entity for the world during this
 
     @Override
     public byte[][] generateBlockSections(World world, Random random, int x, int z, BiomeGrid biomes) {

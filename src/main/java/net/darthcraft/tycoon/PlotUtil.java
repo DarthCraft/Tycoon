@@ -7,16 +7,14 @@ public class PlotUtil {
     private static final int MAX_OFFSET = 30000000;
     private static final int MAX_PLOT_OFFSET = MAX_OFFSET / CGUtil.GRID_CELL_SIZE;
 
-    public PlotCoords worldCoordsToPlotLoc(int x, int z) {
-        int nX = x / CGUtil.GRID_CELL_SIZE;
-        int nZ = z / CGUtil.GRID_CELL_SIZE;
-        return new PlotCoords(nX, nZ);
+    public static long worldCoordsToHash(int x, int z) {
+        return plotLocToHash(worldCoordsToPlotCoords(x, z));
     }
 
-    public static long worldCoordsToHash(int x, int z) {
+    public static PlotCoords worldCoordsToPlotCoords(int x, int z) {
         int nX = (int) Math.floor(((double) x) / CGUtil.GRID_CELL_SIZE);
         int nZ = (int) Math.floor(((double) z) / CGUtil.GRID_CELL_SIZE);
-        return plotLocToHash(nX, nZ);
+        return new PlotCoords(nX, nZ);
     }
 
     public static long plotLocToHash(PlotCoords coords) {
