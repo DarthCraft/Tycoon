@@ -1,14 +1,13 @@
 package net.darthcraft.tycoon.chunkgen;
 
 import org.bukkit.Chunk;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 
 import java.util.Random;
 
-import static net.darthcraft.tycoon.chunkgen.CGUtil.*;
+import static net.darthcraft.tycoon.PlotUtil.*;
 
 public class PathBlockPop extends BlockPopulator {
 

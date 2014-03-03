@@ -2,7 +2,6 @@ package net.darthcraft.tycoon.chunkgen;
 
 import org.bukkit.World;
 import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static net.darthcraft.tycoon.chunkgen.CGUtil.*;
+import static net.darthcraft.tycoon.PlotUtil.*;
 
 public class TycoonChunkGen extends ChunkGenerator {
 
@@ -46,7 +45,7 @@ public class TycoonChunkGen extends ChunkGenerator {
         }
         for (int xx = 0; xx < 16; xx++) {
             int nX = (x << 4) + xx;
-            int mX = CGUtil.modGridSize(nX);
+            int mX = modGridSize(nX);
             for (int zz = 0; zz < 16; zz++) {
                 int nZ = (z << 4) + zz;
                 int mZ = modGridSize(nZ);

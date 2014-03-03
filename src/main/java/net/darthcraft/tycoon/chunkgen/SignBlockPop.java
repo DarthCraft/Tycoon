@@ -7,7 +7,7 @@ import org.bukkit.generator.BlockPopulator;
 
 import java.util.Random;
 
-import static net.darthcraft.tycoon.chunkgen.CGUtil.*;
+import static net.darthcraft.tycoon.PlotUtil.*;
 
 public class SignBlockPop extends BlockPopulator {
 
