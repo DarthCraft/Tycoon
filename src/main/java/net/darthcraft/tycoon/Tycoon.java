@@ -26,14 +26,15 @@ public class Tycoon extends JavaPlugin implements Listener {
         plotManager = new PlotManager(this);
 
 
-
-
         // DEBUG THINGS
-        PlotInformation info = new PlotInformation("psycowithespn", new PlotCoords(0, 0), false);
-        info.addEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 4));
-        info.addEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 4));
-        info.addDenied("psycowithespn");
-        plotManager.registerPlot(info);
+        if (!plotManager.getPlotInformation(new PlotCoords(0, 0)).hasOwner()) {
+            PlotInformation info = new PlotInformation("psycowithespn", new PlotCoords(0, 0), false);
+            info.addEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 4));
+            info.addEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 4));
+            info.addDenied("psycowithespn");
+            plotManager.registerPlot(info);
+            plotManager.savePlotInfo();
+        }
 
         File tycoonWorld = new File(getServer().getWorldContainer(), "tycoon");
         if (tycoonWorld.exists()) {

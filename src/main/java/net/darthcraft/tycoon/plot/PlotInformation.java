@@ -3,11 +3,15 @@ package net.darthcraft.tycoon.plot;
 import net.darthcraft.tycoon.PlotCoords;
 import net.darthcraft.tycoon.PlotUtil;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PlotInformation {
+public class PlotInformation implements Externalizable {
+
+    private static final long serialVersionUID = 342589707689345798L;
 
     private boolean globalOwned;
     private String owner;
@@ -31,6 +35,10 @@ public class PlotInformation {
 
     public PlotInformation(long hash, boolean globalOwned) {
         this(null, PlotUtil.plotCoordsFromHash(hash), globalOwned);
+    }
+
+    public PlotInformation() {
+        this(null, null, false);
     }
 
     public boolean hasOwner() {
@@ -99,5 +107,41 @@ public class PlotInformation {
 
     public void setGlobalOwned(boolean globalOwned) {
         this.globalOwned = globalOwned;
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeBoolean(globalOwned);
+        out.writeUTF(owner);
+        out.writeObject(coords);
+
+        out.writeInt(effects.size());
+        for (PotionEffect effect : effects) {
+            out.writeUTF(effect.getType().getName());
+            out.writeInt(effect.getAmplifier());
+            out.writeInt(effect.getDuration());
+        }
+
+        out.writeObject(allowed);
+        out.writeObject(denied);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        globalOwned = in.readBoolean();
+        owner = in.readUTF();
+        coords = (PlotCoords) in.readObject();
+
+        int count = in.readInt();
+        for (int i = 0; i < count; i++) {
+            String effectType = in.readUTF();
+            PotionEffectType type = PotionEffectType.getByName(effectType);
+            int amp = in.readInt();
+            int dur = in.readInt();
+            effects.add(new PotionEffect(type, dur, amp));
+        }
+
+        allowed = (Set<String>) in.readObject();
+        denied = (Set<String>) in.readObject();
     }
 }

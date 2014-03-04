@@ -1,6 +1,10 @@
 package net.darthcraft.tycoon;
 
-public class PlotCoords {
+import java.io.Serializable;
+
+public class PlotCoords implements Serializable {
+
+    private static final long serialVersionUID = 123735762457373L;
 
     private int plotX;
     private int plotZ;

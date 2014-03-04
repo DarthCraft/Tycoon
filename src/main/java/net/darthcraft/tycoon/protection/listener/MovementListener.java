@@ -63,7 +63,10 @@ public class MovementListener implements Listener {
             if (to.equals(from)) {
                 // stayed in plot
             } else {
-                // switched plots somehow
+                PlotInformation toInfo = plugin.getPlotManager().getPlotInformation(to);
+                PlotInformation fromInfo = plugin.getPlotManager().getPlotInformation(from);
+                playerPlotLeave(event, fromInfo);
+                playerPlotEnter(event, toInfo);
             }
         }
     }
@@ -81,6 +84,7 @@ public class MovementListener implements Listener {
         if (info.isDenied(event.getPlayer().getName())) {
             event.setCancelled(true);
             event.getPlayer().sendMessage(ChatColor.RED + "You can not enter this plot!");
+            playerPathEnter(event);
         } else {
             event.getPlayer().addPotionEffects(info.getEffects());
             Bukkit.broadcastMessage("TYCOON: " + event.getPlayer().getName() + " PLOT(" + info.getCoords().getPlotX() + "," + info.getCoords().getPlotZ() + ")");
