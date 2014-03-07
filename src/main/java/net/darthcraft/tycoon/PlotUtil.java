@@ -30,9 +30,13 @@ public class PlotUtil {
     }
 
     public static PlotCoords worldCoordsToPlotCoords(int x, int z) {
-        int nX = (int) Math.floor(((double) x) / GRID_CELL_SIZE);
-        int nZ = (int) Math.floor(((double) z) / GRID_CELL_SIZE);
+        int nX = worldCoordToPlotCoord(x);
+        int nZ = worldCoordToPlotCoord(z);
         return new PlotCoords(nX, nZ);
+    }
+
+    public static int worldCoordToPlotCoord(int coord) {
+        return (int) Math.floor(((double) coord) / GRID_CELL_SIZE);
     }
 
     public static long plotLocToHash(PlotCoords coords) {
