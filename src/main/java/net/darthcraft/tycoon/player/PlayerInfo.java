@@ -3,15 +3,19 @@ package net.darthcraft.tycoon.player;
 import net.darthcraft.tycoon.PlotUtil;
 import net.darthcraft.tycoon.Tycoon;
 import net.darthcraft.tycoon.plot.PlotInformation;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class PlayerInfo {
 
     private final Tycoon plugin;
-    private final Player player;
+    private final String player;
+
+    private boolean offline;
 
     // Caching things
+    private Player cachedPlayer;
     private int previousX;
     private int previousZ;
     private PlotInformation cachedPlotInfo;
@@ -20,17 +24,20 @@ public class PlayerInfo {
     private boolean isInPlot;
 
 
-    public PlayerInfo(Tycoon plugin, Player player) {
+    public PlayerInfo(Tycoon plugin, String player) {
         this.plugin = plugin;
         this.player = player;
     }
 
     public void update() {
-        if (!player.getWorld().equals(plugin.getTycoonWorld())) {
+        if (offline) {
+            return;
+        }
+        if (!cachedPlayer.getWorld().equals(plugin.getTycoonWorld())) {
             cachedPlotInfo = null;
             return;
         }
-        Location loc = player.getLocation();
+        Location loc = cachedPlayer.getLocation();
         if (loc.getBlockX() == previousX && loc.getBlockZ() == previousZ && cachedPlotInfo != null) {
             return;
         }
@@ -43,6 +50,17 @@ public class PlayerInfo {
         int plotZ = PlotUtil.worldCoordToPlotCoord(previousZ);
         long hash = PlotUtil.plotLocToHash(plotX, plotZ);
         cachedPlotInfo = plugin.getPlotManager().getPlotInformation(hash);
+    }
+
+    public void onLogout() {
+        this.cachedPlayer = null;
+        this.cachedPlotInfo = null;
+        this.offline = true;
+    }
+
+    public void onLogin() {
+        this.cachedPlayer = Bukkit.getPlayerExact(player);
+        this.offline = false;
     }
 
     public boolean isInPlot() {

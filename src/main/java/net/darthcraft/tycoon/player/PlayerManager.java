@@ -35,7 +35,7 @@ public class PlayerManager implements Listener {
     }
 
     private void registerPlayerData(Player player) {
-        PlayerInfo info = new PlayerInfo(plugin, player);
+        PlayerInfo info = new PlayerInfo(plugin, player.getName());
         players.put(player.getName(), info);
     }
 
@@ -49,6 +49,7 @@ public class PlayerManager implements Listener {
             return;
         }
         registerPlayerData(event.getPlayer());
+        getPlayerInfo(event.getPlayer()).onLogin();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -56,6 +57,6 @@ public class PlayerManager implements Listener {
         if (event == null || event.getPlayer() == null) {
             return;
         }
-        unregisterPlayerData(event.getPlayer());
+        getPlayerInfo(event.getPlayer()).onLogout();
     }
 }
