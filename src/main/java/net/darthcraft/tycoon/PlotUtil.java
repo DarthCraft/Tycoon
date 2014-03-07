@@ -55,7 +55,7 @@ public class PlotUtil {
         return (modX > SLAB_MOD_LOC_1 && modX < SLAB_MOD_LOC_2) && (modZ > SLAB_MOD_LOC_1 && modZ < SLAB_MOD_LOC_2);
     }
 
-    public static boolean isPathCoords(int modX, int modZ) {
+    public static boolean isInPath(int modX, int modZ) {
         return modX <= SLAB_MOD_LOC_1 || modZ <= SLAB_MOD_LOC_1 || modX == SLAB_MOD_LOC_2 || modZ == SLAB_MOD_LOC_2;
     }
 }

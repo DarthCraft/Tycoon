@@ -40,8 +40,8 @@ public class MovementListener implements Listener {
         int mNZ = PlotUtil.modGridSize(nZ);
         int mOX = PlotUtil.modGridSize(oX);
         int mOZ = PlotUtil.modGridSize(oZ);
-        boolean fromInPath = PlotUtil.isPathCoords(mOX, mOZ);
-        boolean toInPath = PlotUtil.isPathCoords(mNX, mNZ);
+        boolean fromInPath = PlotUtil.isInPath(mOX, mOZ);
+        boolean toInPath = PlotUtil.isInPath(mNX, mNZ);
         if (fromInPath && toInPath) {
             // stayed in path
         } else if (fromInPath) {

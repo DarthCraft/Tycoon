@@ -3,42 +3,45 @@ package net.darthcraft.tycoon.plot;
 import net.darthcraft.tycoon.PlotCoords;
 import net.darthcraft.tycoon.PlotUtil;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
-import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PlotInformation implements Externalizable {
-
-    private static final long serialVersionUID = 342589707689345798L;
+public class PlotInformation {
 
     private boolean globalOwned;
+    private boolean globalProtected;
     private String owner;
     private PlotCoords coords;
     private Set<PotionEffect> effects;
     private Set<String> allowed;
     private Set<String> denied;
 
-    public PlotInformation(String owner, PlotCoords coords, Set<PotionEffect> effects, Set<String> allowed, Set<String> denied, boolean globalOwned) {
+    public PlotInformation(String owner, PlotCoords coords, Set<PotionEffect> effects, Set<String> allowed, Set<String> denied, boolean globalOwned, boolean globalProtected) {
         this.owner = owner;
         this.coords = coords;
-        this.effects = effects;
-        this.allowed = allowed;
-        this.denied = denied;
+        this.effects = new HashSet<PotionEffect>();
+        if (effects != null) {
+            this.effects.addAll(effects);
+        }
+        this.allowed = new HashSet<String>();
+        if (allowed != null) {
+            this.allowed.addAll(allowed);
+        }
+        this.denied = new HashSet<String>();
+        if (denied != null) {
+            this.denied.addAll(denied);
+        }
         this.globalOwned = globalOwned;
+        this.globalProtected = globalProtected;
     }
 
-    public PlotInformation(String owner, PlotCoords coords, boolean globalOwned) {
-        this(owner, coords, new HashSet<PotionEffect>(), new HashSet<String>(), new HashSet<String>(), globalOwned);
+    public PlotInformation(String owner, PlotCoords coords, boolean globalOwned, boolean globalProtected) {
+        this(owner, coords, null, null, null, globalOwned, globalProtected);
     }
 
-    public PlotInformation(long hash, boolean globalOwned) {
-        this(null, PlotUtil.plotCoordsFromHash(hash), globalOwned);
-    }
-
-    public PlotInformation() {
-        this(null, null, false);
+    public PlotInformation(long hash, boolean globalOwned, boolean globalProtected) {
+        this(null, PlotUtil.plotCoordsFromHash(hash), globalOwned, globalProtected);
     }
 
     public boolean hasOwner() {
@@ -109,39 +112,11 @@ public class PlotInformation implements Externalizable {
         this.globalOwned = globalOwned;
     }
 
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeBoolean(globalOwned);
-        out.writeUTF(owner);
-        out.writeObject(coords);
-
-        out.writeInt(effects.size());
-        for (PotionEffect effect : effects) {
-            out.writeUTF(effect.getType().getName());
-            out.writeInt(effect.getAmplifier());
-            out.writeInt(effect.getDuration());
-        }
-
-        out.writeObject(allowed);
-        out.writeObject(denied);
+    public boolean isGlobalProtected() {
+        return globalProtected;
     }
 
-    @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        globalOwned = in.readBoolean();
-        owner = in.readUTF();
-        coords = (PlotCoords) in.readObject();
-
-        int count = in.readInt();
-        for (int i = 0; i < count; i++) {
-            String effectType = in.readUTF();
-            PotionEffectType type = PotionEffectType.getByName(effectType);
-            int amp = in.readInt();
-            int dur = in.readInt();
-            effects.add(new PotionEffect(type, dur, amp));
-        }
-
-        allowed = (Set<String>) in.readObject();
-        denied = (Set<String>) in.readObject();
+    public void setGlobalProtected(boolean globalProtected) {
+        this.globalProtected = globalProtected;
     }
 }
