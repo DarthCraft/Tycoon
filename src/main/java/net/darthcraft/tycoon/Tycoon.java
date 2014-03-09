@@ -1,6 +1,7 @@
 package net.darthcraft.tycoon;
 
 import net.darthcraft.tycoon.chunkgen.TycoonChunkGen;
+import net.darthcraft.tycoon.player.PlayerManager;
 import net.darthcraft.tycoon.plot.PlotInformation;
 import net.darthcraft.tycoon.plot.PlotManager;
 import net.darthcraft.tycoon.protection.listener.MovementListener;
@@ -20,6 +21,7 @@ import java.io.File;
 public class Tycoon extends JavaPlugin implements Listener {
 
     private PlotManager plotManager;
+    private PlayerManager playerManager;
 
     @Override
     public void onEnable() {
@@ -96,5 +98,9 @@ public class Tycoon extends JavaPlugin implements Listener {
 
     public PlotManager getPlotManager() {
         return plotManager;
+    }
+
+    public PlayerManager getPlayerManager() {
+        return playerManager;
     }
 }

@@ -6,8 +6,8 @@ public class PlotCoords implements Serializable {
 
     private static final long serialVersionUID = 123735762457373L;
 
-    private int plotX;
-    private int plotZ;
+    private final int plotX;
+    private final int plotZ;
 
     public PlotCoords(int plotX, int plotZ) {
         this.plotX = plotX;

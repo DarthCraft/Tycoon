@@ -4,9 +4,8 @@ import net.darthcraft.tycoon.PlotCoords;
 import net.darthcraft.tycoon.PlotUtil;
 import net.darthcraft.tycoon.Tycoon;
 import net.darthcraft.tycoon.plot.file.PlotFile;
-import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class PlotManager {
 
-    private static final String GLOBAL_NAME = "**GLOBAL**";
+    public static final String GLOBAL_NAME = "**GLOBAL**";
 
     private final Pattern PLOT_PATTERN = Pattern.compile("([-]?\\d+),([-]?\\d+).yml");
     private final File plotDir;
@@ -83,7 +82,7 @@ public class PlotManager {
                 System.err.println("Failed to load plot info for file " + pX + "," + pZ + ".yml");
                 continue;
             }
-            if(!registerPlot(info)) {
+            if (!registerPlot(info)) {
                 System.err.println("Duplicate plot location: " + pX + "," + pZ);
             }
         }
@@ -91,5 +90,17 @@ public class PlotManager {
 
     public void savePlotInformation(PlotInformation info) {
         PlotFile.savePlotInformation(plotDir, info);
+    }
+
+    public void claimPlot(String name, PlotInformation plot) {
+        if (name != null) {
+            name = name.toLowerCase();
+            plot.setOwner(name);
+            addPlotToPlayer(name, plot);
+        } else {
+            plot.setGlobalOwned(true);
+            addPlotToPlayer(GLOBAL_NAME, plot);
+        }
+        savePlotInformation(plot);
     }
 }
