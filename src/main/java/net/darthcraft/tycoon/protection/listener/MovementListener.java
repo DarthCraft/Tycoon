@@ -3,8 +3,8 @@ package net.darthcraft.tycoon.protection.listener;
 import net.darthcraft.tycoon.PlotCoords;
 import net.darthcraft.tycoon.PlotUtil;
 import net.darthcraft.tycoon.Tycoon;
+import net.darthcraft.tycoon.player.PlayerInfo;
 import net.darthcraft.tycoon.plot.PlotInformation;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -29,22 +29,17 @@ public class MovementListener implements Listener {
             // Anything requiring camera moving goes here
             return;
         }
-
+        PlayerInfo info = plugin.getPlayerManager().getPlayerInfo(event.getPlayer());
+        info.update();
         int nX = event.getTo().getBlockX();
         int nY = event.getTo().getBlockY();
         int nZ = event.getTo().getBlockZ();
-        int oX = event.getFrom().getBlockX();
-        int oY = event.getFrom().getBlockY();
-        int oZ = event.getFrom().getBlockZ();
         int mNX = PlotUtil.modGridSize(nX);
         int mNZ = PlotUtil.modGridSize(nZ);
-        int mOX = PlotUtil.modGridSize(oX);
-        int mOZ = PlotUtil.modGridSize(oZ);
-        boolean fromInPath = PlotUtil.isInPath(mOX, mOZ);
         boolean toInPath = PlotUtil.isInPath(mNX, mNZ);
-        if (fromInPath && toInPath) {
+        if (!info.isInPlot() && toInPath) {
             // stayed in path
-        } else if (fromInPath) {
+        } else if (!info.isInPlot()) {
             // going into plot
             PlotCoords to = PlotUtil.worldCoordsToPlotCoords(nX, nZ);
             PlotInformation toInfo = plugin.getPlotManager().getPlotInformation(to);
@@ -52,19 +47,16 @@ public class MovementListener implements Listener {
             playerPlotEnter(event, toInfo);
         } else if (toInPath) {
             // going into path
-            Bukkit.broadcastMessage("TYCOON: " + event.getPlayer().getName() + " LEFT PLOT");
-            PlotCoords from = PlotUtil.worldCoordsToPlotCoords(oX, oZ);
-            PlotInformation fromInfo = plugin.getPlotManager().getPlotInformation(from);
+            PlotInformation fromInfo = info.getCachedPlotInfo();
             playerPlotLeave(event, fromInfo);
             playerPathEnter(event);
         } else {
             PlotCoords to = PlotUtil.worldCoordsToPlotCoords(nX, nZ);
-            PlotCoords from = PlotUtil.worldCoordsToPlotCoords(oX, oZ);
-            if (to.equals(from)) {
+            if (to.equals(info.getCachedPlotInfo().getCoords())) {
                 // stayed in plot
             } else {
                 PlotInformation toInfo = plugin.getPlotManager().getPlotInformation(to);
-                PlotInformation fromInfo = plugin.getPlotManager().getPlotInformation(from);
+                PlotInformation fromInfo = info.getCachedPlotInfo();
                 playerPlotLeave(event, fromInfo);
                 playerPlotEnter(event, toInfo);
             }
@@ -87,7 +79,6 @@ public class MovementListener implements Listener {
             playerPathEnter(event);
         } else {
             event.getPlayer().addPotionEffects(info.getEffects());
-            Bukkit.broadcastMessage("TYCOON: " + event.getPlayer().getName() + " PLOT(" + info.getCoords().getPlotX() + "," + info.getCoords().getPlotZ() + ")");
         }
     }
 

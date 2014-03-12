@@ -15,19 +15,11 @@ public class PlayerManager implements Listener {
 
     private final Tycoon plugin;
     private final Map<String, PlayerInfo> players;
-    private boolean initialized;
 
     public PlayerManager(Tycoon plugin) {
         this.plugin = plugin;
         this.players = new HashMap<String, PlayerInfo>();
-    }
-
-    public void initialize() {
-        if (initialized) {
-            return;
-        }
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        initialized = true;
     }
 
     public PlayerInfo getPlayerInfo(Player player) {

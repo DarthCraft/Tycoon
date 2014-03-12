@@ -1,8 +1,8 @@
 package net.darthcraft.tycoon;
 
 import net.darthcraft.tycoon.chunkgen.TycoonChunkGen;
+import net.darthcraft.tycoon.command.CommandManager;
 import net.darthcraft.tycoon.player.PlayerManager;
-import net.darthcraft.tycoon.plot.PlotInformation;
 import net.darthcraft.tycoon.plot.PlotManager;
 import net.darthcraft.tycoon.protection.listener.MovementListener;
 import org.bukkit.World;
@@ -13,8 +13,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.io.File;
 
@@ -22,22 +20,16 @@ public class Tycoon extends JavaPlugin implements Listener {
 
     private PlotManager plotManager;
     private PlayerManager playerManager;
+    private CommandManager commandManager;
 
     @Override
     public void onEnable() {
         plotManager = new PlotManager(this);
-
+        playerManager = new PlayerManager(this);
+        commandManager = new CommandManager(this);
+        getCommand("tycoon").setExecutor(commandManager);
 
         // DEBUG THINGS
-        if (!plotManager.getPlotInformation(new PlotCoords(0, 0)).hasOwner()) {
-            PlotInformation info = new PlotInformation("psycowithespn", new PlotCoords(0, 0), false, false);
-            info.addEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 4));
-            info.addEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 4));
-            info.addDenied("psycowithespn");
-            plotManager.registerPlot(info);
-            plotManager.savePlotInformation(info);
-        }
-
         File tycoonWorld = new File(getServer().getWorldContainer(), "tycoon");
         if (tycoonWorld.exists()) {
             recursiveDelete(tycoonWorld);

@@ -96,10 +96,10 @@ public class PlotManager {
         if (name != null) {
             name = name.toLowerCase();
             plot.setOwner(name);
-            addPlotToPlayer(name, plot);
+            registerPlot(plot);
         } else {
             plot.setGlobalOwned(true);
-            addPlotToPlayer(GLOBAL_NAME, plot);
+            registerPlot(plot);
         }
         savePlotInformation(plot);
     }

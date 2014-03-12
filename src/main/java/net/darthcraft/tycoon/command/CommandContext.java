@@ -61,11 +61,11 @@ public class CommandContext {
     }
 
     // Convenience
-    public void sendMessage(String message, String... args) {
+    public void sendMessage(String message, Object... args) {
         sender.sendMessage(TycoonMessages.MESSAGE_PREFIX + String.format(message, args));
     }
 
-    public void sendError(String message, String... args) {
+    public void sendError(String message, Object... args) {
         sender.sendMessage(TycoonMessages.ERROR_PREFIX + String.format(message, args));
     }
 }

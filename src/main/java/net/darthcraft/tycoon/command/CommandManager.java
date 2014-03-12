@@ -23,6 +23,8 @@ public class CommandManager implements CommandExecutor {
 
     private void registerCommands() {
         commands.put("help", helpCommand);
+        commands.put("claim", new TClaimCommand(plugin));
+        commands.put("info", new TInfoCommand(plugin));
     }
 
 
