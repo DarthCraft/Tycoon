@@ -25,6 +25,7 @@ public class CommandManager implements CommandExecutor {
         commands.put("help", helpCommand);
         commands.put("claim", new TClaimCommand(plugin));
         commands.put("info", new TInfoCommand(plugin));
+        commands.put("denied", new TDeniedCommand(plugin));
     }
 
 
